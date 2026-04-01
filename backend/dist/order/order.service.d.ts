@@ -21,7 +21,7 @@ export declare class OrderService {
     } | {
         url: string | null;
         orderId: import("mongoose").Types.ObjectId;
-        message?: undefined;
+        message: string;
         order?: undefined;
     } | undefined>;
     markPaid(orderId: string): Promise<(import("mongoose").Document<unknown, {}, OrderDocument, {}, import("mongoose").DefaultSchemaOptions> & Order & Document & {

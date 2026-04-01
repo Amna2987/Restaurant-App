@@ -73,7 +73,7 @@ let CartService = class CartService {
                 quantity,
                 price: totalPrice,
             });
-            return cartItem;
+            return { cartItem, message: 'Item added to cart' };
         }
     }
     async getCartItem(user) {

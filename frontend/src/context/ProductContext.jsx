@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react'
 import api from '@/api/api'
+import { toast } from 'react-toastify'
 
 
 const ProductContext = createContext()
@@ -46,9 +47,15 @@ export function ProductProvider({children}){
             console.log(res.data);
              await getCartItem();
             setCartItems(res.data)
+            toast.success(res.data.message)
             
         } catch (error) {
             console.log('cart',error);
+            if (error.response?.data?.message) {
+                toast.warn(error.response.data.message);
+            } else {
+                toast.warn("Something went wrong. 222Please try again.");
+            }
             
         }
         }
@@ -72,6 +79,7 @@ export function ProductProvider({children}){
             const res = await api.post('/cart/clear-cart')
             console.log('clear cart',res.data);
              setUserCart([]);
+            //  toast.info(res.data.message)
             
         } catch (error) {
             console.log('cart',error); 

@@ -98,7 +98,7 @@ else{
       price: totalPrice,
     });
     
-    return cartItem;
+    return {cartItem, message:'Item added to cart'};
 }
    
   }

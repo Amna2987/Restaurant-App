@@ -5,6 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useProductContext } from "@/context/ProductContext";
 import api from "@/api/api";
 import { redirect, useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const stripePromise = loadStripe("pk_test_xxx");
 
@@ -33,7 +34,8 @@ export default function PaymentPage() {
 
  const handleOrder = async () => {
   if (!form.name || !form.phone || !form.address) {
-    alert("Please fill all fields");
+    // alert("Please fill all fields");
+    toast.warn("Please fill all fields to place order")
     return;
   }
 
@@ -50,10 +52,13 @@ export default function PaymentPage() {
   try {
     const res = await api.post('/orders/place-order', formData);
     const data = res.data;
+    console.log('order',res.data);
+    
 
     // 🟢 COD
     if (method === "COD") {
-      alert("Order placed successfully");
+      // alert("Order placed successfully");
+      toast.success(res.data.message)
       router.push("/success");
       return;
     }

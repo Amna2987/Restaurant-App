@@ -85,7 +85,10 @@ export default function Navbar() {
                 <AuthModal
                     mode={mode}
                     setMode={setMode}
-                    onClose={() => setOpenModal(false)}
+                    onClose={() => {setOpenModal(false)
+                        setError("")}
+                    }
+                    
                 />
             )}
         </>

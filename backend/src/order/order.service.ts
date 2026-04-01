@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import Stripe from 'stripe';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -26,6 +26,10 @@ export class OrderService {
 
   async createOrder(dto: CreateOrderDto) {
     const { items, paymentMethod, customerName, address, phone } = dto;
+
+    if(!items || !paymentMethod || !customerName || !address || !phone){
+            throw new BadRequestException('All fields are required');
+          }
 
     // ✅ 1. CALCULATE TOTAL (FIXED)
     const totalAmount = items.reduce((sum, item) => sum + item.price, 0);
@@ -84,6 +88,7 @@ export class OrderService {
       return {
         url: session.url, // 👈 redirect frontend
         orderId: order._id,
+        message: 'Pay order'
       };
     }
   }

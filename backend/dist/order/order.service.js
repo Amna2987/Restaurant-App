@@ -37,6 +37,9 @@ let OrderService = class OrderService {
     }
     async createOrder(dto) {
         const { items, paymentMethod, customerName, address, phone } = dto;
+        if (!items || !paymentMethod || !customerName || !address || !phone) {
+            throw new common_1.BadRequestException('All fields are required');
+        }
         const totalAmount = items.reduce((sum, item) => sum + item.price, 0);
         const orderId = 'ORD-' + Date.now();
         const order = await this.orderModel.create({
@@ -78,6 +81,7 @@ let OrderService = class OrderService {
             return {
                 url: session.url,
                 orderId: order._id,
+                message: 'Pay order'
             };
         }
     }

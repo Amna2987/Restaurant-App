@@ -18,24 +18,25 @@ export default function AuthModal({ mode, setMode, onClose }) {
     const {name, value} = e.target
     setFormData({...formData,[name]:value})
     console.log(formData);
+     if (error) setError(""); // ✅ clear on typing
   }
 
   const handleSubmit = async (e) => {
   e.preventDefault();
-  setError(""); // clear previous errors
 
-  try {
-    if (mode === "login") {
-      loginUser(formData)
-      onClose(); 
-    } else {
-      registerUser(formData)
-      onClose();
-    }
-  } catch (err) {
-    console.log(err);
+  let success = false;
+
+  if (mode === "login") {
+    success = await loginUser(formData);
+  } else {
+    success = await registerUser(formData);
   }
+
+  // ✅ close ONLY if success
+  if (success) {
+    onClose();
   }
+};
   const submitGoogleUser = async (e) => {
   e.preventDefault();
   try {
@@ -75,7 +76,7 @@ export default function AuthModal({ mode, setMode, onClose }) {
             {mode === "login" ? "Welcome Back" : "Create Account"}
           </h2>
           {error && (
-  <div className="bg-red-500/20 border border-red-500 text-red-400 px-4 py-2 rounded-lg text-sm">
+  <div className="bg-red-500/20 mb-2 border border-red-500 text-red-400 px-4 py-2 rounded-lg text-sm">
     {error}
   </div>
 )}

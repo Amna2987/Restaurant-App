@@ -19,8 +19,13 @@ export class AuthService {
   async register(user) {
       console.log('service', user)
 
+      if(user.name == '' || user.email == '' || user.password == '' || user.confirmPassword == ''){
+        throw new BadRequestException('All fields are required');
+
+      }
+
     const existingUser = await this.userService.findUser(user.email);
-    if (existingUser) throw new BadRequestException('user already exist');
+    if (existingUser) throw new BadRequestException('User already exist');
 
     const hashPassword = await bcrypt.hash(user.password, 10);
 
@@ -38,6 +43,9 @@ export class AuthService {
 
   async login(user, res:any) {
     console.log('login service', user)
+    if(user.email == '' || user.password == ''){
+        throw new BadRequestException('Invalid Credentials');
+      }
 
     const loginUser = await this.userService.findUser(user.email);
     if (!loginUser) throw new UnauthorizedException('Invalid Credentials');

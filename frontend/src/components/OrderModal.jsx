@@ -4,6 +4,7 @@ import api from "@/api/api";
 import { useAuth } from "@/context/AuthContext";
 import { useProductContext } from "@/context/ProductContext";
 import { useState, useMemo } from "react";
+import { toast } from "react-toastify";
 
 export default function OrderModal({ item, onClose }) {
 
@@ -47,8 +48,11 @@ export default function OrderModal({ item, onClose }) {
     const handleAdd = () => {
         console.log('add');
 
+        if(!user) {
+           return toast.warn('Please login to place order')
+        }
         if(!item._id) {
-            console.log('no user')
+            toast.warn('No item selected')
         }
         else{
             const cartItem={

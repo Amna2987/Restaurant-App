@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react'
 import api from "@/api/api";
+import { toast } from 'react-toastify';
 
 const AuthContext = createContext()
 
@@ -10,39 +11,42 @@ export function AuthProvider({ children }) {
     const [error, setError] = useState("");
 
 
-    const registerUser = async (formData) => {
-        try {
-            const res = await api.post("/auth/register", formData);
-            console.log("register res", res.data);
+   const registerUser = async (formData) => {
+  try {
+    const res = await api.post("/auth/register", formData);
 
-        } catch (err) {
-            console.log(err);
-            if (err.response?.data?.message) {
-                setError(err.response.data.message);
-            } else {
-                setError("Something went wrong. Please try again.");
-            }
+    toast.success(res.data.message);
+    setError("");
 
-        }
+    return true; // ✅
+  } catch (err) {
+    if (err.response?.data?.message) {
+      setError(err.response.data.message);
+    } else {
+      setError("Something went wrong. Please try again.");
     }
+    return false; // ❌
+  }
+};
+    
+   const loginUser = async (formData) => {
+  try {
+    const res = await api.post("/auth/login", formData);
 
-    const loginUser = async (formData) => {
-        try {
-            const res = await api.post("/auth/login", formData);
-            console.log("login res", res.data);
-            setUser(res.data.user)
-            console.log('USER:', res.data.user);
+    setUser(res.data.user);
+    setError("");
+    toast.success(res.data.message);
 
-        } catch (err) {
-            console.log(err);
-            if (err.response?.data?.message) {
-                setError(err.response.data.message);
-            } else {
-                setError("Something went wrong. Please try again.");
-            }
-
-        }
+    return true; // ✅ success
+  } catch (err) {
+    if (err.response?.data?.message) {
+      setError(err.response.data.message);
+    } else {
+      setError("Something went wrong. Please try again.");
     }
+    return false; // ❌ fail
+  }
+};
 
     const logout = async () => {
         try {
@@ -50,6 +54,7 @@ export function AuthProvider({ children }) {
             console.log("login res", res.data);
             console.log('USER:', res.data.user);
             setUser(null)
+            toast.info(res.data.message)
 
         } catch (err) {
             console.log(err);
@@ -62,6 +67,7 @@ export function AuthProvider({ children }) {
     }
     const googleUserLogin = () => {
   window.location.href = "http://localhost:3000/auth/google";
+  toast.success('User logged in with google')
 };
     const currentUser = async () => {
         try {
@@ -74,7 +80,6 @@ export function AuthProvider({ children }) {
             if (err.response?.status == 401) {
       console.log('NO user Loggedin');
     }
-
         }
     }
 

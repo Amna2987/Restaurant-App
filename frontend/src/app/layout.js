@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import { AuthProvider } from "@/context/AuthContext";
 import { ProductProvider } from "@/context/ProductContext";
 import Footer from "@/components/Footer";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,9 +29,22 @@ export default function RootLayout({ children }) {
       >
         <AuthProvider>
           <ProductProvider>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+              // transition={Bounce}
+            />
             <Navbar />
             <div className="pt-">{children}</div>
-            <Footer/>
+            <Footer />
           </ProductProvider>
         </AuthProvider>
       </body>

@@ -67,9 +67,12 @@ let AuthService = class AuthService {
     }
     async register(user) {
         console.log('service', user);
+        if (user.name == '' || user.email == '' || user.password == '' || user.confirmPassword == '') {
+            throw new common_1.BadRequestException('All fields are required');
+        }
         const existingUser = await this.userService.findUser(user.email);
         if (existingUser)
-            throw new common_1.BadRequestException('user already exist');
+            throw new common_1.BadRequestException('User already exist');
         const hashPassword = await bcrypt.hash(user.password, 10);
         const newUser = await this.userService.createUser({
             name: user.name,
@@ -80,6 +83,9 @@ let AuthService = class AuthService {
     }
     async login(user, res) {
         console.log('login service', user);
+        if (user.email == '' || user.password == '') {
+            throw new common_1.BadRequestException('Invalid Credentials');
+        }
         const loginUser = await this.userService.findUser(user.email);
         if (!loginUser)
             throw new common_1.UnauthorizedException('Invalid Credentials');
