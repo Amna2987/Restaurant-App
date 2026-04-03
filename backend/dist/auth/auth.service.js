@@ -90,8 +90,9 @@ let AuthService = class AuthService {
         if (!loginUser)
             throw new common_1.UnauthorizedException('Invalid Credentials');
         const isMatched = await bcrypt.compare(user.password, loginUser.password);
+        console.log('user find', loginUser, isMatched);
         if (!isMatched)
-            throw new common_1.UnauthorizedException('Invalid Credentials');
+            throw new common_1.BadRequestException('Invalid Credentials');
         const payload = {
             userId: loginUser._id,
             email: loginUser.email,

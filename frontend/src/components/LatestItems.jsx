@@ -48,10 +48,6 @@ export default function LatestItems() {
                   <span className="text-orange-400 font-bold">
                     {item.price}
                   </span>
-
-                  <button className="bg-orange-500 text-black px-4 py-1 rounded">
-                    Order
-                  </button>
                 </div>
               </div>
             </motion.div>

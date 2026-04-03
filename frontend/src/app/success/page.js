@@ -1,13 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useProductContext } from "@/context/ProductContext";
 
 export default function SuccessPage() {
-  const params = useSearchParams();
   const router = useRouter();
-  const orderId = params.get("orderId");
 
   const { setUserCart,clearCart } = useProductContext();
 
@@ -28,12 +26,6 @@ export default function SuccessPage() {
         <p className="text-gray-400 mb-2">
           Your order has been placed successfully.
         </p>
-
-        {orderId && (
-          <p className="text-sm text-gray-500 mb-6">
-            Order ID: <span className="text-orange-400">{orderId}</span>
-          </p>
-        )}
 
         <button
           onClick={() => router.push("/")}

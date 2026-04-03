@@ -55,7 +55,7 @@ export default function HeroSlider() {
                     {slide.title}
                   </h1>
 
-                  <p className="text-lg mb-8 text-gray-200">
+                  <p className="text-[26px] mb-8 text-gray-200">
                     {slide.subtitle}
                   </p>
 

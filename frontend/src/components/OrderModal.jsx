@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 export default function OrderModal({ item, onClose }) {
 
     const { user } = useAuth();
-    const {addToCart} = useProductContext()
+    const { addToCart } = useProductContext()
 
     const [selectedVariation, setSelectedVariation] = useState(
         item.variations?.[0]?.name || ""
@@ -43,36 +43,36 @@ export default function OrderModal({ item, onClose }) {
 
     };
     console.log('selected variation', selectedVariation);
-    
+
 
     const handleAdd = () => {
         console.log('add');
 
-        if(!user) {
-           return toast.warn('Please login to place order')
+        if (!user) {
+            return toast.warn('Please login to place order')
         }
-        if(!item._id) {
+        if (!item._id) {
             toast.warn('No item selected')
         }
-        else{
-            const cartItem={
-                userId:user.userId,
-                itemId:item._id,
-                name:item.name,
-                variation:selectedVariation,
-                addon:selectedAddons,
+        else {
+            const cartItem = {
+                userId: user.userId,
+                itemId: item._id,
+                name: item.name,
+                variation: selectedVariation,
+                addon: selectedAddons,
                 quantity: qty,
             };
             console.log('cart itm', cartItem);
-            
+
             try {
                 addToCart(cartItem)
             } catch (error) {
-                console.log('cart',error);
-                
+                console.log('cart', error);
+
             }
         }
-        
+
         onClose();
     };
 
@@ -97,7 +97,7 @@ export default function OrderModal({ item, onClose }) {
                 </div>
 
                 {/* CONTENT */}
-                <div className="p-5 max-h-[70vh] overflow-y-auto">
+                <div className="p-5 max-h-[60vh] overflow-y-auto">
 
                     {/* Title */}
                     <h2 className="text-2xl font-bold">{item.name}</h2>
@@ -117,8 +117,8 @@ export default function OrderModal({ item, onClose }) {
                                     key={i}
                                     onClick={() => setSelectedVariation(v.name)}
                                     className={`px-4 py-2 rounded-full border text-sm transition ${selectedVariation === v.name
-                                            ? "bg-orange-500 text-black border-orange-500"
-                                            : "border-gray-600 text-gray-300 hover:border-orange-400"
+                                        ? "bg-orange-500 text-black border-orange-500"
+                                        : "border-gray-600 text-gray-300 hover:border-orange-400"
                                         }`}
                                 >
                                     {v.name} {v.price > 0 && `(+${v.price})`}
@@ -139,8 +139,8 @@ export default function OrderModal({ item, onClose }) {
                                     key={i}
                                     onClick={() => toggleAddon(a.name)}
                                     className={`flex justify-between items-center px-4 py-2 rounded-lg border cursor-pointer transition ${selectedAddons.includes(a.name)
-                                            ? "border-orange-500 bg-orange-500/10"
-                                            : "border-gray-700 hover:border-orange-400"
+                                        ? "border-orange-500 bg-orange-500/10"
+                                        : "border-gray-700 hover:border-orange-400"
                                         }`}
                                 >
                                     <span>{a.name}</span>

@@ -39,12 +39,19 @@ export function AuthProvider({ children }) {
 
     return true; // ✅ success
   } catch (err) {
-    if (err.response?.data?.message) {
-      setError(err.response.data.message);
-    } else {
-      setError("Something went wrong. Please try again.");
-    }
-    return false; // ❌ fail
+       console.log("FULL ERROR:", err.response);
+
+  const message = err.response?.data?.message;
+
+  if (Array.isArray(message)) {
+    setError(message[0]); // take first element if array
+  } else if (message) {
+    setError(message); // use string if string
+  } else {
+    setError("Something went wrong. Please try again.");
+  }
+
+  return false;
   }
 };
 
