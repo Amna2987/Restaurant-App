@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://restaurant-app-production-916b.up.railway.app/",
+  baseURL: "https://restaurant-app-production-916b.up.railway.app",
   // baseURL: "http://localhost:3000",
   withCredentials: true,
 });
